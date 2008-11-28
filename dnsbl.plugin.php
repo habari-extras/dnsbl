@@ -54,6 +54,8 @@ class Dnsbl extends Plugin
 	public function action_plugin_activation($file)
 	{
 		if (Plugins::id_from_file($file) != Plugins::id_from_file(__FILE__)) return;
+		Options::set('dnsbl__ipbl', "dnsbl.spam-champuru.livedoor.com");
+		Options::set('dnsbl__urlbl', "bsb.spamlookup.net");
 
 	}
 
@@ -80,9 +82,10 @@ class Dnsbl extends Plugin
 	{
 		if ($plugin_id != $this->plugin_id()) return;
 		if ($action == _t('Configure')) {
-			$ui= new FormUI(strtolower(get_class($this)));
-			$ui->append('submit', 'save', _t( 'Save' ));
-			$ui->out();
+			$form = new FormUI(strtolower(get_class($this)));
+			$form->append('textarea', 'ipbl', 'dnsbl__ipbl', _t('IP Blacklists: ', 'dnsbl'));
+			$form->append('submit', 'save', _t('Save'));
+			$form->out();
 		}
 	}
 
@@ -111,6 +114,30 @@ class Dnsbl extends Plugin
 	 */
 	public function action_comment_insert_before($comment)
 	{
+		$ipaddrs = explode('.', $comment->ip, 4);
+		$reverse_ipaddr = join('.', array_reverse($ipaddrs));
+
+		$ipbls = Options::get('dnsbl__ipbl');
+		$ipbls = str_replace("\r", '', $ipbls);
+		$ipbls = explode("\n", trim($ipbls));
+
+		$checks = array();
+		@reset($ipbls);
+		while (list(, $ipbl) = @each($ipbls)) {
+			$addr = gethostbyname($reverse_ipaddr . '.' . $ipbl);
+			if ($addr == '127.0.0.2') {
+				$checks[] = sprintf(_t('Flagged by DNSBL (%s)', 'dnsbl'), $ipbl);
+			}
+		}
+
+		if (count($checks) > 0) {
+			$comment->status = 'spam';
+			if (isset($comment->info->spamcheck)) {
+				$comment->info->spamcheck = array_unique(array_merge($comment->info->spamcheck, $checks));
+			} else {
+				$comment->info->spamcheck = $checks;
+			}
+		}
 	}
 }
 ?>
