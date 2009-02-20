@@ -1,0 +1,10 @@
+<plugin>
+	<name>DNSBL</name>
+	<version>0.1-alpha</version>
+	<url>http://ayu.commun.jp/habari-dnsbl</url>
+	<author>ayunyan</author>
+	<authorurl>http://ayu.commun.jp/</authorurl>
+	<license>Apache License 2.0</license>
+	<guid>86fcddaa-ab4e-11dd-9e8d-001b210f913f</guid>
+</plugin>
+
