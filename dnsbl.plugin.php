@@ -12,26 +12,6 @@
 class Dnsbl extends Plugin
 {
 	/**
-	 * plugin information
-	 *
-	 * @access public
-	 * @retrun array
-	 */
-	public function info()
-	{
-		return array(
-			'name' => 'DNSBL',
-			'version' => '0.1-alpha',
-			'url' => 'http://ayu.commun.jp/habari-dnsbl',
-			'author' => 'ayunyan',
-			'authorurl' => 'http://ayu.commun.jp/',
-			'license' => 'Apache License 2.0',
-			'description' => '',
-			'guid' => '86fcddaa-ab4e-11dd-9e8d-001b210f913f'
-			);
-	}
-
-	/**
 	 * setting priority
 	 *
 	 * @access public
@@ -55,7 +35,9 @@ class Dnsbl extends Plugin
 	{
 		if (Plugins::id_from_file($file) != Plugins::id_from_file(__FILE__)) return;
 		Options::set('dnsbl__ipbl', "dnsbl.spam-champuru.livedoor.com");
-		Options::set('dnsbl__urlbl', "bsb.spamlookup.net");
+
+		// URL blacklist not implemented, perhaps for the future?
+		// Options::set('dnsbl__urlbl', "bsb.spamlookup.net");
 
 	}
 

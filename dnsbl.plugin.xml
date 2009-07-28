@@ -1,10 +1,11 @@
-<plugin>
+<?xml version="1.0" encoding="utf-8" ?>
+<pluggable type="plugin">
 	<name>DNSBL</name>
 	<version>0.1-alpha</version>
 	<url>http://ayu.commun.jp/habari-dnsbl</url>
-	<author>ayunyan</author>
-	<authorurl>http://ayu.commun.jp/</authorurl>
-	<license>Apache License 2.0</license>
+	<author url="http://ayu.commun.jp/">ayunyan</author>
+	<license url="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License 2.0</license>
+	<description><![CDATA[Check comments against an IP blacklist.]]></description>
 	<guid>86fcddaa-ab4e-11dd-9e8d-001b210f913f</guid>
-</plugin>
-
+	<copyright>2009</copyright>
+</pluggable>
